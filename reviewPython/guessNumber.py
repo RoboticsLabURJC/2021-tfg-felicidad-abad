@@ -24,8 +24,24 @@ print(numero)
 print("¿Puedes adivinar el número? Introduce una respuesta: ")
 guess = input()
 
-check = 0
-while check < int(longitud):
-    if numero[check] == guess[check]:
-        print("Has acertado una!")
-    check = check + 1
+def checkAciertos(longitud, guess):
+    check = 0
+    acertadas = 0
+
+    while check < int(longitud):
+        if numero[check] == guess[check]:
+            acertadas = acertadas + 1
+        check = check + 1
+    return acertadas
+
+result = checkAciertos(longitud,guess)
+while result != int(longitud):
+    print("")
+    print("Con la cadena " + str(guess) + " has adivinado " + str(result) + " posiciones")
+    print("¿Puedes adivinar el número? Introduce una respuesta: ")
+    guess = input()
+    result = checkAciertos(longitud,guess)
+
+if result == int(longitud):
+    print("")
+    print("¡Has acertado todos los números!")
