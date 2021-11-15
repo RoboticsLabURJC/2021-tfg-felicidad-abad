@@ -15,7 +15,6 @@ categories:
 - Training
 - November
 tags:
-- python
 - week 0
 
 author: Felicidad Abad
