@@ -1,6 +1,5 @@
 ---
-title: "Introduction"
-excerpt: "First post"
+title: "Week 1. Python & GitHub review"
 
 sidebar:
   nav: "docs"
