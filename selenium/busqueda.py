@@ -16,8 +16,15 @@ aceptar = driver.find_element_by_id("L2AGLb")
 aceptar.click()
 
 search = driver.find_element_by_name("q")
-search.send_keys("selenium")
+search.send_keys("twitch")
 search.send_keys(Keys.RETURN)
+
+link = driver.find_element_by_xpath("//a[@href='https://www.twitch.tv/']")
+link.click()
+
+driver.back()
+
+## select = driver.find_element_by_xpath("//a[@div='_P6yZYZycNsamaJvngsgC5']")
 
 time.sleep(10)
 driver.quit()
