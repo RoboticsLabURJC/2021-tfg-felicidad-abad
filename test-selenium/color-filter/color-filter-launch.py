@@ -19,7 +19,7 @@ try:
     log_in_button = buttons[2]
     log_in_button.click()
 
-    time.sleep(10)
+    time.sleep(3)
     username = driver.find_element(By.NAME,"username")
     username.send_keys(env("UNIBOTICS_USER"))
 
@@ -29,7 +29,7 @@ try:
     enter = driver.find_element(By.XPATH, "//input[@class='fadeIn fourth']")
     enter.click()
 
-    time.sleep(10)
+    time.sleep(3)
 
     ## ENTER COLOR FILTER & CLOSE MODAL
     go_to_exercise = env("UNIBOTICS_URL") + "academy/exercise/color_filter"
@@ -37,15 +37,11 @@ try:
 
     ActionChains(driver).move_by_offset(200, 100).click().perform()
 
-    ## CHECK THEORY
-    theory_button = driver.find_element(By.ID, "open-theory")
-    theory_button.click()
+    ## LAUNCH BUTTON
+    console = driver.find_element(By.ID, "launch-button")
+    console.click()
 
-    ## BACK TO EXERCISE
-    exercise_button = driver.find_element(By.ID, "open-exercise")
-    exercise_button.click()
-
-    print("El test ha finalizado bien")
+    print("El test ha terminado")
 
 except:
     print("El test ha fallado")

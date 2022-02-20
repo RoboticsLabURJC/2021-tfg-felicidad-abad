@@ -37,15 +37,12 @@ try:
 
     ActionChains(driver).move_by_offset(200, 100).click().perform()
 
-    ## CHECK THEORY
-    theory_button = driver.find_element(By.ID, "open-theory")
-    theory_button.click()
+    ## FORUM
+    console = driver.find_element(By.ID, "open-forum")
+    console.click()
 
-    ## BACK TO EXERCISE
-    exercise_button = driver.find_element(By.ID, "open-exercise")
-    exercise_button.click()
-
-    print("El test ha finalizado bien")
+    click_console = driver.find_element(By.ID, "open-exercise")
+    click_console.click()
 
 except:
     print("El test ha fallado")
