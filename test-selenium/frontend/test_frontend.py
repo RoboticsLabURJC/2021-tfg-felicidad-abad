@@ -1930,3 +1930,1231 @@ class TestLaserMappingExercise(LiveServerTestCase):
         ## GAZEBO BUTTON
         gazebo_button = self.selenium.find_element(By.ID, "teleop_button")
         gazebo_button.click()
+
+
+class TestFollowLineGameExercise(LiveServerTestCase):
+    def setUp(self):
+        opts = Options()
+        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
+        if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
+            self.selenium = webdriver.Chrome(options=opts)
+        else:
+            self.selenium = webdriver.Firefox(options=opts)
+        self.password = "test1234"
+        self.user = create_user(username="testing_user", password=self.password)
+        self.exercise = create_exercise(exercise_id="follow_line_game", name="Follow Line Game")
+
+    def tearDown(self):
+        self.selenium.quit()
+
+    def test_follow_line_game_enter(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+
+    def test_follow_line_game_launch(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(5)
+        ## LAUNCH BUTTON
+        launch_button = self.selenium.find_element(By.ID, "launch-button")
+        launch_button.click()
+
+    def test_follow_line_game_theory(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER COLOR FILTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CHECK THEORY
+        theory_button = self.selenium.find_element(By.ID, "open-theory")
+        theory_button.click()
+
+    def test_follow_line_game_forum(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+    def test_follow_line_game_exercise(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+        exercise = self.selenium.find_element(By.ID, "open-exercise")
+        exercise.click()
+
+    def test_follow_line_game_console(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CONSOLE
+        console = self.selenium.find_element(By.ID, "console_button")
+        console.click()
+
+    def test_follow_line_game_save(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## SAVE BUTTON
+        save_button = self.selenium.find_element(By.ID, "save")
+        save_button.click()
+
+    def test_follow_line_game_gazebo(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "gazebo_button")
+        gazebo_button.click()
+
+    def test_follow_line_game_teleop(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "teleop_button")
+        gazebo_button.click()
+
+
+class TestRescuePeopleExercise(LiveServerTestCase):
+    def setUp(self):
+        opts = Options()
+        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
+        if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
+            self.selenium = webdriver.Chrome(options=opts)
+        else:
+            self.selenium = webdriver.Firefox(options=opts)
+        self.password = "test1234"
+        self.user = create_user(username="testing_user", password=self.password)
+        self.exercise = create_exercise(exercise_id="rescue_people", name="Rescue People")
+
+    def tearDown(self):
+        self.selenium.quit()
+
+    def test_rescue_people_enter(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+
+    def test_rescue_people_launch(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(5)
+        ## LAUNCH BUTTON
+        launch_button = self.selenium.find_element(By.ID, "launch-button")
+        launch_button.click()
+
+    def test_rescue_people_theory(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER COLOR FILTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CHECK THEORY
+        theory_button = self.selenium.find_element(By.ID, "open-theory")
+        theory_button.click()
+
+    def test_rescue_people_forum(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+    def test_rescue_people_exercise(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+        exercise = self.selenium.find_element(By.ID, "open-exercise")
+        exercise.click()
+
+    def test_rescue_people_console(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CONSOLE
+        console = self.selenium.find_element(By.ID, "console_button")
+        console.click()
+
+    def test_rescue_people_save(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## SAVE BUTTON
+        save_button = self.selenium.find_element(By.ID, "save")
+        save_button.click()
+
+    def test_rescue_people_gazebo(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "gazebo_button")
+        gazebo_button.click()
+
+
+class TestMontecarloVisualLocExercise(LiveServerTestCase):
+    def setUp(self):
+        opts = Options()
+        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
+        if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
+            self.selenium = webdriver.Chrome(options=opts)
+        else:
+            self.selenium = webdriver.Firefox(options=opts)
+        self.password = "test1234"
+        self.user = create_user(username="testing_user", password=self.password)
+        self.exercise = create_exercise(exercise_id="montecarlo_visual_loc", name="Montecarlo Visual Loc")
+
+    def tearDown(self):
+        self.selenium.quit()
+
+    def test_montecarlo_visual_loc_enter(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+
+    def test_montecarlo_visual_loc_launch(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(5)
+        ## LAUNCH BUTTON
+        launch_button = self.selenium.find_element(By.ID, "launch-button")
+        launch_button.click()
+
+    def test_montecarlo_visual_loc_theory(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER COLOR FILTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CHECK THEORY
+        theory_button = self.selenium.find_element(By.ID, "open-theory")
+        theory_button.click()
+
+    def test_montecarlo_visual_loc_forum(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+    def test_montecarlo_visual_loc_exercise(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+        exercise = self.selenium.find_element(By.ID, "open-exercise")
+        exercise.click()
+
+    def test_montecarlo_visual_loc_console(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CONSOLE
+        console = self.selenium.find_element(By.ID, "console_button")
+        console.click()
+
+    def test_montecarlo_visual_loc_save(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## SAVE BUTTON
+        save_button = self.selenium.find_element(By.ID, "save")
+        save_button.click()
+
+    def test_montecarlo_visual_loc_gazebo(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "gazebo_button")
+        gazebo_button.click()
+
+
+class TestDroneCatMouseExercise(LiveServerTestCase):
+    def setUp(self):
+        opts = Options()
+        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
+        if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
+            self.selenium = webdriver.Chrome(options=opts)
+        else:
+            self.selenium = webdriver.Firefox(options=opts)
+        self.password = "test1234"
+        self.user = create_user(username="testing_user", password=self.password)
+        self.exercise = create_exercise(exercise_id="drone_cat_mouse_game", name="Drone Cat Mouse")
+
+    def tearDown(self):
+        self.selenium.quit()
+
+    def test_drone_cat_mouse_game_enter(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+
+    def test_drone_cat_mouse_game_launch(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(5)
+        ## LAUNCH BUTTON
+        launch_button = self.selenium.find_element(By.ID, "launch-button")
+        launch_button.click()
+
+    def test_drone_cat_mouse_game_theory(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER COLOR FILTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CHECK THEORY
+        theory_button = self.selenium.find_element(By.ID, "open-theory")
+        theory_button.click()
+
+    def test_drone_cat_mouse_game_forum(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+    def test_drone_cat_mouse_game_exercise(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+        exercise = self.selenium.find_element(By.ID, "open-exercise")
+        exercise.click()
+
+    def test_drone_cat_mouse_game_console(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CONSOLE
+        console = self.selenium.find_element(By.ID, "console_button")
+        console.click()
+
+    def test_drone_cat_mouse_game_save(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## SAVE BUTTON
+        save_button = self.selenium.find_element(By.ID, "save")
+        save_button.click()
+
+    def test_drone_cat_mouse_game_gazebo(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "gazebo_button")
+        gazebo_button.click()
+
+    def test_drone_cat_mouse_game_evaluator(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "eval_button")
+        gazebo_button.click()
+
+
+class TestAutoparkingExercise(LiveServerTestCase):
+    def setUp(self):
+        opts = Options()
+        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
+        if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
+            self.selenium = webdriver.Chrome(options=opts)
+        else:
+            self.selenium = webdriver.Firefox(options=opts)
+        self.password = "test1234"
+        self.user = create_user(username="testing_user", password=self.password)
+        self.exercise = create_exercise(exercise_id="autoparking", name="Autoparking")
+
+    def tearDown(self):
+        self.selenium.quit()
+
+    def test_autoparking_enter(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+
+    def test_autoparking_launch(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(5)
+        ## LAUNCH BUTTON
+        launch_button = self.selenium.find_element(By.ID, "launch-button")
+        launch_button.click()
+
+    def test_autoparking_theory(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER COLOR FILTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CHECK THEORY
+        theory_button = self.selenium.find_element(By.ID, "open-theory")
+        theory_button.click()
+
+    def test_autoparking_forum(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+    def test_autoparking_exercise(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+        exercise = self.selenium.find_element(By.ID, "open-exercise")
+        exercise.click()
+
+    def test_autoparking_console(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CONSOLE
+        console = self.selenium.find_element(By.ID, "console_button")
+        console.click()
+
+    def test_autoparking_save(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## SAVE BUTTON
+        save_button = self.selenium.find_element(By.ID, "save")
+        save_button.click()
+
+    def test_autoparking_gazebo(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "gazebo_button")
+        gazebo_button.click()
+
+
+class TestCarJunctionExercise(LiveServerTestCase):
+    def setUp(self):
+        opts = Options()
+        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
+        if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
+            self.selenium = webdriver.Chrome(options=opts)
+        else:
+            self.selenium = webdriver.Firefox(options=opts)
+        self.password = "test1234"
+        self.user = create_user(username="testing_user", password=self.password)
+        self.exercise = create_exercise(exercise_id="car_junction", name="Car Junction")
+
+    def tearDown(self):
+        self.selenium.quit()
+
+    def test_car_junction_enter(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+
+    def test_car_junction_launch(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(5)
+        ## LAUNCH BUTTON
+        launch_button = self.selenium.find_element(By.ID, "launch-button")
+        launch_button.click()
+
+    def test_car_junction_theory(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER COLOR FILTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CHECK THEORY
+        theory_button = self.selenium.find_element(By.ID, "open-theory")
+        theory_button.click()
+
+    def test_car_junction_forum(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+    def test_car_junction_exercise(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GO TO FORUM
+        forum = self.selenium.find_element(By.ID, "open-forum")
+        forum.click()
+
+        exercise = self.selenium.find_element(By.ID, "open-exercise")
+        exercise.click()
+
+    def test_car_junction_console(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## CONSOLE
+        console = self.selenium.find_element(By.ID, "console_button")
+        console.click()
+
+    def test_car_junction_save(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER LASER MAPPING & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## SAVE BUTTON
+        save_button = self.selenium.find_element(By.ID, "save")
+        save_button.click()
+
+    def test_car_junction_gazebo(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        print(self.selenium.title)
+        WebDriverWait(self.selenium, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
+
+        username = self.selenium.find_element(By.NAME, "username")
+        username.send_keys(self.user.username)
+        password = self.selenium.find_element(By.NAME, "password")
+        password.send_keys(self.password)
+        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+
+        ## ENTER & CLOSE MODAL
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+
+        time.sleep(2)
+        ## GAZEBO BUTTON
+        gazebo_button = self.selenium.find_element(By.ID, "gazebo_button")
+        gazebo_button.click()
