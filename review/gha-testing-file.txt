@@ -1,0 +1,1 @@
+Se añade un fichero para realizar una prueba inicial de github actions al hacer push.
