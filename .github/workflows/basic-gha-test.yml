@@ -1,0 +1,12 @@
+name: Imprimir valor de variable
+
+on: [push]
+
+jobs:
+  print_variable:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Imprimir valor de variable
+      run: |
+        my_variable="Hola mundo!"
+        echo $my_variable
