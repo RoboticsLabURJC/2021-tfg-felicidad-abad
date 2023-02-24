@@ -18,10 +18,7 @@ from environs import Env
 import json
 import re
 
-print(1)
 subprocess.Popen(f'sudo docker start RADI',stdout=subprocess.PIPE,shell=True)
-print(2)
-
 sys.path.append('academy/tests/')
 env = Env()
 env.read_env()
@@ -68,9 +65,11 @@ class TestObstacleAvoidanceExercise(LiveServerTestCase):
 
     def tearDown(self):
         self.selenium.quit()
+        
 
     def test_obstacle_avoidance_enter(self):
-        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        '''self.selenium.get('%s%s' % (self.live_server_url, '/'))'''
+        self.selenium.get("http://127.0.0.1:8000")
         print(self.selenium.title)
         WebDriverWait(self.selenium, 20).until(
             EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
@@ -90,10 +89,6 @@ class TestObstacleAvoidanceExercise(LiveServerTestCase):
         time.sleep(20)
         ace = self.selenium.find_element(By.ID,"editor")
         print(ace)
-        
-        actions = ActionChains(self.selenium)
-        actions.move_to_element(ace).send_keys("myusername").perform()
-        print("llegamos hasta actions")
         '''editorele = ace.sendKeys("editor");
         editorele.setValue(code);
         ace.clear()
@@ -101,11 +96,20 @@ class TestObstacleAvoidanceExercise(LiveServerTestCase):
         
         print(subprocess.run(f'sudo docker exec -it RADI bash -c "source prepara.sh"', shell=True, capture_output=True))
         result = subprocess.run(f'sudo docker exec -it RADI bash -c "source prepara.sh"', shell=True, capture_output=True)'''
-        result = subprocess.run('sudo docker exec -it RADI bash -c "source prepara.sh"', shell=True, capture_output=True)
+        print(".run")
+        result = subprocess.run(f'sudo docker exec -it RADI bash -c "source prepara.sh"', shell=True, capture_output=True)
+        '''
+        print("popen")
+        result = subprocess.Popen(f'sudo docker exec -it RADI bash -c "source prepara.sh"', stdout=subprocess.PIPE,shell=True)
         print(result)
-        print("final")
+        print("final")'''
         
-        pose3Duno = result.stdout[result.stdout.find("Pose3D"):result.stdout.find("}")+1].replace('\r\n', ',')
+        #Para tratar la respuesta que se devuelve en bytes y es rara
+        print(result.stdout)
+        print("intento tratar el string")
+        pose3Duno = result.stdout.decode('utf-8')
+        print(pose3Duno)
+        pose3Duno = pose3Duno[pose3Duno.find("Pose3D"):pose3Duno.find("}")+1].replace('\r\n', ',')
         pose3Duno = pose3Duno.replace(',', '', 1)
         pose3Duno_rev = pose3Duno[::-1]
         pose3Duno_rev = pose3Duno_rev.replace(',', '', 1)
@@ -117,21 +121,38 @@ class TestObstacleAvoidanceExercise(LiveServerTestCase):
 
         print("La posicion de la x es: ", data['x'])
         print("La posicion de la y es: ", data['Y'])
- 
-'''       
-        print('_______________')
-        print(result.CompletedProcess.X)  
-        print('ejercicio')
-        subprocess.Popen(f'sudo docker exec -it RADI /bin/bash',stdout=subprocess.PIPE,shell=True)
-        print("111")
-        subprocess.Popen(f'sudo docker exec -it RADI roscore',stdout=subprocess.PIPE,shell=True)
-        print(subprocess.run(f'sudo docker exec -it RADI /bin/bash -c "export PATH=$PATH:/opt/ros/noetic/bin:/opt/gradle/gradle-6.3-rc-4/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/VirtualGL/bin:/opt/TurboVNC/bin"',shell=True,capture_output=True))
-        print(subprocess.run(f'sudo docker exec -it RADI exec bash',shell=True,capture_output=True))
-        print(subprocess.run(f'sudo docker exec -it RADI bin/bash -c "echo $PATH"',shell=True,capture_output=True))
-        print('---------')
-        ejecucion = subprocess.run(f'sudo docker exec -it RADI python3 /RoboticsAcademy/exercises/obstacle_avoidance/testing.py',shell=True,capture_output=True)
-        print(ejecucion)
-        print('eo')
-'''
+        
+        # Para insertar el código en el editor
+        actions = ActionChains(self.selenium)
+        actions.move_to_element(ace).send_keys("from GUI import GUI\r\n from HAL import HAL\r\n # Enter sequential code!\r\n while True:\r\n# Enter iterative code!\r\n currentTarget = GUI.map.getNextTarget()\r\n GUI.map.targetx = currentTarget.getPose().x\r\n GUI.map.targety = currentTarget.getPose().y\r\n HAL.setV(2)).perform()")
+        print("llegamos hasta actions")
+        
+        #Antes de que funcione sería necesario que conecte con el RADI
+        self.selenium.find_element(By.ID, "launch-button").click()
+        time.sleep(10)
+        self.selenium.find_element(By.ID, "loadIntoRobot").click()
+        time.sleep(20)
+        print("ya ha cargado el codigo")
+        
+        self.selenium.find_element(By.ID, "submit").click()
+        time.sleep(10)
+        
+        result2 = subprocess.run(f'sudo docker exec -it RADI bash -c "source prepara.sh"', shell=True, capture_output=True)
+        print(result2)
+        
+        pose3Ddos = result2.stdout.decode('utf-8')
+        pose3Ddos = pose3Ddos[pose3Ddos.find("Pose3D"):pose3Ddos.find("}")+1].replace('\r\n', ',')
+        pose3Ddos = pose3Ddos.replace(',', '', 1)
+        pose3Ddos_rev = pose3Ddos[::-1]
+        pose3Ddos_rev = pose3Ddos_rev.replace(',', '', 1)
+        pose3Ddos = pose3Ddos_rev[::-1]
+        pose3Ddos = pose3Ddos[pose3Ddos.find("{")-1::]
+        pose3Ddos = re.sub(r'\bY\b', r'"Y"', pose3Ddos)
+        string2 = pose3Ddos.replace('x', '"x"').replace('Yaw', '"Yaw"').replace('Z', '"Z"').replace('H', '"H"').replace('Pitch', '"Pitch"').replace('Roll', '"Roll"').replace('quaternion', '"quaternion"').replace('timeStamp', '"timeStamp"').replace('[', '["').replace(']', '"]')
+        data = json.loads(string2)
+        
+        print("La posicion de la x2 es: ", data['x'])
+        print("La posicion de la y2 es: ", data['Y'])
+   
 
 
