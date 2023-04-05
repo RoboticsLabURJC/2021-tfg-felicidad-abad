@@ -1,79 +1,45 @@
-import subprocess
 from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoAlertPresentException
 
-''' Lo primero que hay que hacer es iniciar tanto el contenedor de bbdd,
-como el del RADI para poder usar Selenium después'''
+
 from .operations import create_user, create_exercise
 import time
 import sys
 from environs import Env
-import json
-import re
 import yaml
+import subprocess
+import numpy as np
 
-subprocess.Popen(f'sudo docker start RADI',stdout=subprocess.PIPE,shell=True)
 sys.path.append('academy/tests/')
 env = Env()
 env.read_env()
 
-class TestLogin(LiveServerTestCase):
+subprocess.Popen(f'sudo docker start RADI',stdout=subprocess.PIPE,shell=True)
 
+
+class TestAceEditor(StaticLiveServerTestCase):
     def setUp(self):
         opts = Options()
-        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
+        #opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
         if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
             self.selenium = webdriver.Chrome(options=opts)
         else:
             self.selenium = webdriver.Firefox(options=opts)
-        self.password = "pass"
-        self.user = create_user(username="admin_dummy", password=self.password)
-
-    def tearDown(self):
-        self.selenium.quit()
-
-    def test_login(self):
-        '''
-        self.selenium.get('%s%s' % (self.live_server_url, '/'))
-        '''
-        self.selenium.get('http://127.0.0.1:8000/')
-        print(self.selenium.title)
-        WebDriverWait(self.selenium, 20).until(
-            EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
-
-        username = self.selenium.find_element(By.NAME, "username")
-        username.send_keys(self.user.username)
-        password = self.selenium.find_element(By.NAME, "password")
-        password.send_keys(self.password)
-        self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
-
-
-class TestCarJunctionExercise(LiveServerTestCase):
-    def setUp(self):
-        opts = Options()
-        opts.add_argument(env.str("SELENIUM_DISPLAY", "--headless"))
-        if env.str("SELENIUM_BROWSER", "firefox") == "chrome":
-            self.selenium = webdriver.Chrome(options=opts)
-        else:
-            self.selenium = webdriver.Firefox(options=opts)
-        self.password = "pass"
-        self.user = create_user(username="admin_dummy", password=self.password)
+        self.password = "test1234"
+        self.user = create_user(username="testing_user", password=self.password)
         self.exercise = create_exercise(exercise_id="car_junction", name="Car Junction")
 
     def tearDown(self):
         self.selenium.quit()
 
-
-    def test_car_junction_enter(self):
-        '''self.selenium.get('%s%s' % (self.live_server_url, '/'))'''
-        self.selenium.get("http://127.0.0.1:8000")
-        print(self.selenium.title)
+    def test_insert_code(self):
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
         WebDriverWait(self.selenium, 20).until(
             EC.element_to_be_clickable((By.XPATH, '//a[@href="/academy/login"]'))).click()
 
@@ -81,8 +47,31 @@ class TestCarJunctionExercise(LiveServerTestCase):
         username.send_keys(self.user.username)
         password = self.selenium.find_element(By.NAME, "password")
         password.send_keys(self.password)
-        time.sleep(15)
         self.selenium.find_element(By.XPATH, "//input[@class='fadeIn fourth']").click()
+        ## ENTER EXERCISE
+        element = self.selenium.find_element(By.XPATH,
+            f'//a[@href="/academy/exercise/{self.exercise.exercise_id}"]/./..')
+        element.click()
+        ActionChains(self.selenium).move_by_offset(200, 100).click().perform()
+        time.sleep(1)
+        ## Editor
+        self.selenium.execute_script("ace.edit('editor').setValue('from GUI import GUI\\nfrom HAL import HAL\\nwhile True:\\n    HAL.setV(5)')")
+        time.sleep(5)
+
+        #Antes de que funcione sería necesario que conecte con el RADI
+        self.selenium.find_element(By.ID, "launch-button").click()
+
+        #Cerramos la alerta que se abre cuando ha conectado con el RADI
+        alert = WebDriverWait(self.selenium, 60).until(EC.alert_is_present())
+        alert.accept()
+
+        #Cargar el código en el robot
+        self.selenium.find_element(By.ID, "loadIntoRobot").click()
+        time.sleep(20)
+        print("ya ha cargado el codigo")
+
+        self.selenium.find_element(By.ID, "submit").click()
+        time.sleep(10)
 
         def processResponse (data):
             data = data.stdout.decode('utf-8')
