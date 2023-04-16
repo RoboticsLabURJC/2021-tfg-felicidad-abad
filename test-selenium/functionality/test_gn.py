@@ -66,11 +66,12 @@ class TestAceEditor(StaticLiveServerTestCase):
 
         #Cargar el código en el robot
         self.selenium.find_element(By.ID, "loadIntoRobot").click()
-        time.sleep(20)
         print("ya ha cargado el codigo")
 
+        WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
+
         self.selenium.find_element(By.ID, "submit").click()
-        time.sleep(10)
+        time.sleep(2)
 
         def processResponse (data):
             data = data.stdout.decode('utf-8')
@@ -82,8 +83,6 @@ class TestAceEditor(StaticLiveServerTestCase):
 
         result1 = subprocess.run(f'sudo docker exec -it RADI bash -c "source /test_functionality/topic_taxi.sh"', shell=True, capture_output=True)
         processedResponse1 = processResponse(result1)
-        print(processedResponse1)
-        print(type(processedResponse1))
         positions1 = {
             'x' : processedResponse1['pose']['pose']['position']['x'],
             'y' : processedResponse1['pose']['pose']['position']['y']
