@@ -20,7 +20,9 @@ sys.path.append('academy/tests/')
 env = Env()
 env.read_env()
 
+subprocess.run(f'sudo docker start db_container',stdout=subprocess.PIPE,shell=True)
 subprocess.Popen(f'sudo docker start RADI',stdout=subprocess.PIPE,shell=True)
+
 
 def processResponseTurtleBot (data):
     data = data.stdout.decode('utf-8')
@@ -95,7 +97,7 @@ class TestAceEditor3DReconstruction(StaticLiveServerTestCase):
         time.sleep(2)
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(5)
 
@@ -167,7 +169,7 @@ class TestAceEditorAutoparking(StaticLiveServerTestCase):
         time.sleep(5)
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -239,7 +241,7 @@ class TestAceEditorCarJunction(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 30).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -311,7 +313,7 @@ class TestAceEditorDroneCatMouse(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 30).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -384,7 +386,7 @@ class TestAceEditorFollowLine(StaticLiveServerTestCase):
         time.sleep(2)
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -456,7 +458,7 @@ class TestAceEditorGlobalNavigation(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -527,7 +529,7 @@ class TestAceEditorMontecarloVisualLoc(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -599,7 +601,7 @@ class TestAceEditorObstacleAvoidance(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -669,11 +671,11 @@ class TestAceEditorOpticalflowTeleop(StaticLiveServerTestCase):
 
         #Cargar el código en el robot
         self.selenium.find_element(By.ID, "loadIntoRobot").click()
-        time.sleep(15)
+        time.sleep(10)
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -744,7 +746,7 @@ class TestAceEditorRescuePeople(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -816,7 +818,7 @@ class TestAceEditorVacuumCleaner(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
@@ -897,7 +899,7 @@ class TestAceEditorVacuumCleanerLoc(StaticLiveServerTestCase):
         print("ya ha cargado el codigo")
 
         WebDriverWait(self.selenium, 40).until(EC.invisibility_of_element_located((By.XPATH, '//ul[@style="display:inline-block"]')))
-
+        time.sleep(1)
         self.selenium.find_element(By.ID, "submit").click()
         time.sleep(2)
 
