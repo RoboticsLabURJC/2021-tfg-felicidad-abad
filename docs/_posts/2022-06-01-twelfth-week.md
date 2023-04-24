@@ -23,7 +23,7 @@ author: Felicidad Abad
 pinned: false
 ---
 
-Una vez los test están acabados es el momento de crear el archivo que contendrá a todos ellos.
+Once the test are made, it was time to make one file that contained them all.
 
 When deploying to production, no matter how small the changes are, it is necessary to check that everything continues to work. Thats why we joined them in only one script, so when the changes are uploaded to production all of the previous thing in production are tested.
 
