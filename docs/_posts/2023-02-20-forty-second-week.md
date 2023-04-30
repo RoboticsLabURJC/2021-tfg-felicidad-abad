@@ -10,7 +10,7 @@ sidebar:
 classes: wide
 
 categories:
-- December
+- February
 - selenium
 - ROS
 tags:
